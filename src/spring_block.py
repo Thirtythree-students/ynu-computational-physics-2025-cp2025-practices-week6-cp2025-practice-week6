@@ -1,107 +1,36 @@
+from shenji import solve_ode_euler, spring_mass_ode_func, solve_ode_odeint
 import numpy as np
-import matplotlib.pyplot as plt
-from scipy.integrate import odeint
 
+def test_solve_ode_euler():
+    """测试欧拉法求解器"""
+    step_num = 100
+    time_points, position, velocity = solve_ode_euler(step_num)
 
-def solve_ode_euler(step_num):
-    """
-    使用欧拉法求解弹簧 - 质点系统的常微分方程。
+    # 检查返回数组的长度
+    assert len(time_points) == step_num + 1
+    assert len(position) == step_num + 1
+    assert len(velocity) == step_num + 1
 
-    参数:
-    step_num (int): 模拟的步数
+def test_spring_mass_ode_func():
+    """测试微分方程函数"""
+    # 测试几个特定点
+    test_cases = [
+        ([0, 1], 0, [1, 0]),    # x=0, v=1
+        ([1, 0], 0, [0, -1]),   # x=1, v=0
+        ([-1, 0], 0, [0, 1]),   # x=-1, v=0
+        ([0, -1], 0, [-1, 0]),  # x=0, v=-1
+    ]
 
-    返回:
-    tuple: 包含时间数组、位置数组和速度数组的元组
-    """
-    # TODO: 创建存储位置和速度的数组
-    position = None
-    velocity = None
+    for state, time, expected in test_cases:
+        result = spring_mass_ode_func(state, time)
+        assert np.allclose(result, expected)
 
-    # TODO: 计算时间步长
-    time_step = None
+def test_solve_ode_odeint():
+    """测试 odeint 求解器"""
+    step_num = 100
+    time_points, position, velocity = solve_ode_odeint(step_num)
 
-    # TODO: 设置初始位置和速度
-    
-    # TODO: 使用欧拉法迭代求解微分方程
-    
-    # TODO: 生成时间数组
-    time_points = None
-
-    return time_points, position, velocity
-
-
-def spring_mass_ode_func(state, time):
-    """
-    定义弹簧 - 质点系统的常微分方程。
-
-    参数:
-    state (list): 包含位置和速度的列表
-    time (float): 时间
-
-    返回:
-    list: 包含位置和速度的导数的列表
-    """
-    # TODO: 从状态中提取位置和速度
-    
-    # TODO: 计算位置和速度的导数
-    
-    return [0, 0]  # 替换为正确的返回值
-
-
-def solve_ode_odeint(step_num):
-    """
-    使用 odeint 求解弹簧 - 质点系统的常微分方程。
-
-    参数:
-    step_num (int): 模拟的步数
-
-    返回:
-    tuple: 包含时间数组、位置数组和速度数组的元组
-    """
-    # TODO: 设置初始条件
-    initial_state = None
-    
-    # TODO: 创建时间点数组
-    time_points = None
-    
-    # TODO: 使用 odeint 求解微分方程
-    solution = None
-    
-    # TODO: 从解中提取位置和速度
-    position = None
-    velocity = None
-    
-    return time_points, position, velocity
-
-
-def plot_ode_solutions(time_euler, position_euler, velocity_euler, time_odeint, position_odeint, velocity_odeint):
-    """
-    绘制欧拉法和 odeint 求解的位置和速度随时间变化的图像。
-
-    参数:
-    time_euler (np.ndarray): 欧拉法的时间数组
-    position_euler (np.ndarray): 欧拉法的位置数组
-    velocity_euler (np.ndarray): 欧拉法的速度数组
-    time_odeint (np.ndarray): odeint 的时间数组
-    position_odeint (np.ndarray): odeint 的位置数组
-    velocity_odeint (np.ndarray): odeint 的速度数组
-    """
-    # TODO: 创建图形并设置大小
-    
-    # TODO: 绘制位置对比图
-    
-    # TODO: 绘制速度对比图
-    
-    # TODO: 显示图形
-    pass
-
-
-if __name__ == "__main__":
-    # 模拟步数
-    step_count = 100
-    # TODO: 使用欧拉法求解
-    time_euler, position_euler, velocity_euler = solve_ode_euler(step_count)
-    # TODO: 使用 odeint 求解
-    time_odeint, position_odeint, velocity_odeint = solve_ode_odeint(step_count)
-    # TODO: 绘制对比结果
-    plot_ode_solutions(time_euler, position_euler, velocity_euler, time_odeint, position_odeint, velocity_odeint)
+    # 检查返回数组的长度
+    assert len(time_points) == step_num + 1
+    assert len(position) == step_num + 1
+    assert len(velocity) == step_num + 1
